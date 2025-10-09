@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sharada Navaratri - Interactive Golu</title>
+<style>
+/* Reset */
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(to right, #3a0ca3, #008000); color:#fff; overflow-x:hidden; position:relative; }
+
+/* Header */
+header { text-align:center; padding:1rem; background: rgba(0,0,0,0.6); position: sticky; top:0; z-index:1000; }
+header h1 { color:#ffe600; font-size:2rem; text-shadow: 2px 2px 6px #000; }
+nav { margin-top:0.5rem; }
+nav a { margin:0 1rem; text-decoration:none; color:#fff; font-weight:bold; transition:0.3s; }
+nav a:hover { color:#ffe600; }
+.counter { font-size:1.2rem; margin-top:1rem; color:#fff; font-weight:bold; text-shadow:1px 1px 3px #000; }
+
+/* Goddess Frame */
+.goddess-frame { display:flex; justify-content:center; gap:1rem; margin:2rem 0; }
+.goddess-frame img { width:80px; border-radius:50%; border:3px solid #ffe600; transition: transform 0.3s, box-shadow 0.5s; }
+.goddess-frame img:hover { transform: scale(1.2) rotate(-5deg); box-shadow: 0 0 20px #ffe600, 0 0 40px #ffd700, 0 0 60px #fffacd; }
+
+/* Hero */
+.hero { text-align:center; padding:3rem 1rem; }
+.hero h2 { font-size:2.5rem; color:#ffe600; margin-bottom:1rem; text-shadow: 1px 1px 6px #000; }
+.hero p { font-size:1.1rem; margin-bottom:1.5rem; }
+.btn { background:#ffe600; color:#000; padding:0.8rem 1.5rem; border-radius:30px; font-weight:bold; text-decoration:none; transition: all 0.3s; }
+.btn:hover { background:#fff; transform: scale(1.1); }
+
+/* Sections */
+section { padding:3rem 1rem; text-align:center; }
+section h2 { color:#ffe600; margin-bottom:1rem; font-size:2rem; }
+
+/* Golu dolls */
+.golu-dolls { display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:1rem; margin-top:2rem; }
+.golu-dolls img { width:100%; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.6); transition: transform 0.4s, box-shadow 0.4s; cursor:pointer; }
+.golu-dolls img:hover { transform: scale(1.1) rotate(-3deg); box-shadow:0 8px 20px rgba(255,255,0,0.8); }
+
+/* Modal */
+.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); justify-content:center; align-items:center; z-index:2000; flex-direction:column; }
+.modal img { max-width:50%; max-height:50%; border:5px solid #ffe600; border-radius:10px; animation: pop 0.5s ease; margin-bottom:1rem; }
+.modal .description { color:#ffe600; font-size:1.2rem; text-align:center; max-width:80%; }
+@keyframes pop { 0% {transform: scale(0);} 100% {transform: scale(1);} }
+
+/* Gallery */
+.gallery { display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap:1rem; margin-top:2rem; }
+.gallery img { width:100%; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.6); transition: transform 0.3s; }
+.gallery img:hover { transform: scale(1.05); }
+
+/* Footer */
+footer { background: rgba(0,0,0,0.7); padding:1rem; text-align:center; font-size:0.9rem; }
+
+/* Floating decor */
+.decor { position:fixed; width:50px; opacity:0.7; animation: float 6s infinite ease-in-out; z-index:0; }
+.decor1 { top:10%; left:5%; animation-delay:0s; }
+.decor2 { top:30%; right:10%; animation-delay:2s; }
+.decor3 { bottom:20%; left:15%; animation-delay:4s; }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+
+/* Sparkles */
+.sparkle { width:10px; height:10px; border-radius:50%; background:yellow; position:absolute; opacity:0.8; pointer-events:none; animation: sparkleAnim 1s linear forwards; }
+@keyframes sparkleAnim { 0% {transform: scale(0);} 50% {transform: scale(1);} 100% {transform: translateY(-30px) scale(0); opacity:0;} }
+
+/* Audio hidden */
+audio { display:none; }
+
+/* Responsive */
+@media(max-width:768px) {
+  .hero h2 { font-size:1.8rem; }
+  nav a { margin:0 0.5rem; }
+  .modal img { max-width:80%; max-height:40%; }
+}
+</style>
+</head>
+<body>
+
+<!-- Background music -->
+<audio autoplay loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<header>
+  <h1>🪆 Sharada Navaratri Interactive Golu</h1>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#dolls">Golu Dolls</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="counter">Visitors: <span id="visitorCount">0</span></div>
+</header>
+
+<!-- Goddess Frame -->
+<div class="goddess-frame">
+  <img src="https://img.freepik.com/premium-photo/goddess-maa-durga-happy-navratri-happy-durga-puja-subh-navratri-background-ai-generated_852336-14501.jpg?w=740" alt="Goddess 1">
+  <img src="https://img.freepik.com/premium-photo/navratri-goddess-durga-maa-puja-image-ai-generated-art_853163-2319.jpg" alt="Goddess 2">
+  <img src="https://img.freepik.com/premium-photo/illustration-goddess-durga-happy-durga-puja-subh-navratri-generative-ai_852336-21785.jpg?w=2000" alt="Goddess 3">
+</div>
+
+<section class="hero">
+  <h2>Celebrate Divine Golu Display</h2>
+  <p>Experience Sharada Navaratri with interactive Golu dolls, devotional vibes, and festive joy.</p>
+  <a href="#dolls" class="btn">Explore Dolls</a>
+</section>
+
+<section id="about">
+  <h2>About Golu</h2>
+  <p>Golu is a beautiful tradition during Sharada Navaratri where dolls and figurines are arranged in steps, telling stories from mythology and folk culture. It is a celebration of devotion, creativity, and learning.</p>
+</section>
+
+<section id="dolls">
+  <h2>Interactive Golu Dolls</h2>
+  <div class="golu-dolls">
+    <img src="https://tse1.mm.bing.net/th/id/OIP.3F56Ho2W2M-6RV6R134EMAHaE7?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Golu Doll 1" class="popup" data-name="Doll 1" data-desc="This doll represents Goddess Durga's victory over evil.">
+    <img src="https://www.indian-heritage.org/festival/golu/sf1.jpg" alt="Golu Doll 2" class="popup" data-name="Doll 2" data-desc="This doll depicts Krishna playing the flute.">
+    <img src="https://www.revv.co.in/blogs/wp-content/uploads/2020/10/Golu-festival.jpg" alt="Golu Doll 3" class="popup" data-name="Doll 3" data-desc="This doll shows Ramayana characters in a scene.">
+    <img src="https://2.bp.blogspot.com/-bPOiKIYzjSM/UIFpCT4tByI/AAAAAAAAAb8/ETMzb8N2qIU/s1600/golu1.jpg" alt="Golu Doll 4" class="popup" data-name="Doll 4" data-desc="This doll shows traditional folk dancers.">
+  </div>
+</section>
+
+<section id="gallery">
+  <h2>Gallery</h2>
+  <div class="gallery">
+    <img src="https://tse3.mm.bing.net/th/id/OIP.dbiZgFh7SPSaOeO9NDKs4gHaJ4?w=1500&h=2000&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Golu 1">
+    <img src="https://tse2.mm.bing.net/th/id/OIP.cwE5CK_wN4I98SXp7IzeMQHaIm?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Golu 2">
+    <img src="https://m.media-amazon.com/images/I/51gdCYSSXDL.jpg" alt="Golu 3">
+    <img src="https://4.bp.blogspot.com/-4lPPen-a7xw/W69guOHQv9I/AAAAAAAAWfY/DaTmB7yuS9oRgaUBqjiLwMuCFhc1kksdgCLcBGAs/s1600/marapachi-bommai-kolu.jpg" alt="Golu 4">
+  </div>
+</section>
+
+<section id="contact">
+  <h2>Contact</h2>
+  <p>Want to share your Golu photos or participate in the festival?</p>
+  <a href="mailto:festivegolu@example.com" class="btn">📧 Send Email</a>
+</section>
+
+<footer>
+  <p>✨ Sharada Navaratri 2025 | Interactive Golu Display ✨</p>
+</footer>
+
+<!-- Floating decor -->
+<img src=https://thumbs.dreamstime.com/z/navaratri-golu-collection-different-type-god-sculptures-lined-up-steps-days-function-257611710.jpg class="decor decor1" alt="diya"/>
+<img src=https://image.shutterstock.com/image-photo/lord-radha-figurine-bommai-golu-260nw-1523645129.jpg class="decor decor2" alt="flower"/>
+<img src=https://media.istockphoto.com/id/1183197015/photo/indian-god-idols-balaji-black-color-statues.jpg?s=612x612&w=0&k=20&c=rGi1ESKWWtUjbNH1g2yWetAw_tnHocIMAV-ziyhwyEg= class="decor decor3" alt="diya"/>
+
+<!-- Modal -->
+<div class="modal" id="modal">
+  <img src="" alt="Golu Doll">
+  <div class="description"></div>
+</div>
+
+<script>
+// Visitor counter using localStorage
+let count = localStorage.getItem('visitorCount') || 0;
+count++;
+localStorage.setItem('visitorCount', count);
+document.getElementById('visitorCount').innerText = count;
+
+// Popup dolls
+const popupImages = document.querySelectorAll('.popup');
+const modal = document.getElementById('modal');
+const modalImg = modal.querySelector('img');
+const modalDesc = modal.querySelector('.description');
+
+popupImages.forEach(img => {
+  img.addEventListener('click', () => {
+    modal.style.display = 'flex';
+    modalImg.src = img.src;
+    modalDesc.textContent = img.dataset.name + " - " + img.dataset.desc;
+  });
+});
+
+modal.addEventListener('click', () => modal.style.display = 'none');
+
+// Sparkles effect on hover
+popupImages.forEach(img => {
+  img.addEventListener('mouseenter', () => {
+    for(let i=0;i<8;i++){
+      const sparkle = document.createElement('div');
+      sparkle.classList.add('sparkle');
+      sparkle.style.top = (img.getBoundingClientRect().top + Math.random()*img.height)+'px';
+      sparkle.style.left = (img.getBoundingClientRect().left + Math.random()*img.width)+'px';
+      document.body.appendChild(sparkle);
+      setTimeout(()=> sparkle.remove(), 1000);
+    }
+  });
+});
+
+// Continuous random sparkles
+function createRandomSparkle() {
+  const sparkle = document.createElement('div');
+  sparkle.classList.add('sparkle');
+  sparkle.style.top = Math.random()*window.innerHeight + 'px';
+  sparkle.style.left = Math.random()*window.innerWidth + 'px';
+  sparkle.style.animationDuration = (1 + Math.random()*2) + 's';
+  document.body.appendChild(sparkle);
+  setTimeout(()=> sparkle.remove(), 3000);
+}
+setInterval(createRandomSparkle, 300);
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
